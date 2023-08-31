@@ -4,7 +4,8 @@ class HourlyForecastItem extends StatelessWidget {
   final String time;
   final IconData icon;
   final String temperature;
-  const HourlyForecastItem({super.key,
+  const HourlyForecastItem({
+    super.key,
     required this.time,
     required this.icon,
     required this.temperature,
@@ -32,6 +33,8 @@ class HourlyForecastItem extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 8),
             Icon(

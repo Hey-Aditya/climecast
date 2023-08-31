@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/hourly_forecast_item.dart';
 import 'package:weather_app/additional_info_item.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +22,8 @@ class _WeatherPageState extends State<WeatherPage> {
   //   super.initState();
   //   getCurrentWeather();
   // }
+
+  late Future<Map<String, dynamic>> weather;
 
   Future<Map<String, dynamic>> getCurrentWeather() async {
     String cityName = 'London';
@@ -49,6 +52,13 @@ class _WeatherPageState extends State<WeatherPage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    weather = getCurrentWeather();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -64,6 +74,9 @@ class _WeatherPageState extends State<WeatherPage> {
         actions: [
           IconButton(
             onPressed: () {
+              setState(() {
+                weather = getCurrentWeather();
+              });
               debugPrint('refresh');
             },
             icon: const Icon(Icons.refresh_rounded),
@@ -81,7 +94,7 @@ class _WeatherPageState extends State<WeatherPage> {
         ],
       ),
       body: FutureBuilder(
-        future: getCurrentWeather(),
+        future: weather,
         builder: (context, snapshot) {
           // print(snapshot);
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -195,90 +208,113 @@ class _WeatherPageState extends State<WeatherPage> {
                     height: 10,
                   ),
 
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        // //Box(My Own Iteration/Idea)
-                        // Card(
-                        //   elevation: 10,
-                        //   shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(16),
-                        //   ),
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.all(10.0),
-                        //     child: SizedBox(
-                        //       width: 100,
-                        //       child: Column(
-                        //         children: [
-                        //           Text(
-                        //             "01:00",
-                        //             style: TextStyle(
-                        //               fontSize: 18,
-                        //               fontWeight: FontWeight.w600,
-                        //             ),
-                        //           ),
-                        //           SizedBox(height: 8),
-                        //           Icon(
-                        //             Icons.water_drop,
-                        //             size: 40,
-                        //           ),
-                        //           SizedBox(height: 8),
-                        //           Text(
-                        //             "29°C",
-                        //             style: TextStyle(
-                        //               fontSize: 15,
-                        //               fontWeight: FontWeight.w200,
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   child: Row(
+                  //     children: [
+                  //       // //Box(My Own Iteration/Idea)
+                  //       // Card(
+                  //       //   elevation: 10,
+                  //       //   shape: RoundedRectangleBorder(
+                  //       //     borderRadius: BorderRadius.circular(16),
+                  //       //   ),
+                  //       //   child: Padding(
+                  //       //     padding: const EdgeInsets.all(10.0),
+                  //       //     child: SizedBox(
+                  //       //       width: 100,
+                  //       //       child: Column(
+                  //       //         children: [
+                  //       //           Text(
+                  //       //             "01:00",
+                  //       //             style: TextStyle(
+                  //       //               fontSize: 18,
+                  //       //               fontWeight: FontWeight.w600,
+                  //       //             ),
+                  //       //           ),
+                  //       //           SizedBox(height: 8),
+                  //       //           Icon(
+                  //       //             Icons.water_drop,
+                  //       //             size: 40,
+                  //       //           ),
+                  //       //           SizedBox(height: 8),
+                  //       //           Text(
+                  //       //             "29°C",
+                  //       //             style: TextStyle(
+                  //       //               fontSize: 15,
+                  //       //               fontWeight: FontWeight.w200,
+                  //       //             ),
+                  //       //           ),
+                  //       //         ],
+                  //       //       ),
+                  //       //     ),
+                  //       //   ),
+                  //       // ),
 
-                        // SizedBox(width: 2),
+                  //       // SizedBox(width: 2),
 
-                        // HourlyForecastItem(
-                        //   time: "01:00",
-                        //   icon: Icons.cloud,
-                        //   temperature: "30°C",
-                        // ),
-                        // HourlyForecastItem(
-                        //   time: "02:00",
-                        //   icon: Icons.sunny_snowing,
-                        //   temperature: "29°C",
-                        // ),
-                        // HourlyForecastItem(
-                        //   time: "03:00",
-                        //   icon: Icons.cloud,
-                        //   temperature: "29°C",
-                        // ),
-                        // HourlyForecastItem(
-                        //   time: "04:00",
-                        //   icon: Icons.air,
-                        //   temperature: "28°C",
-                        // ),
-                        // HourlyForecastItem(
-                        //   time: "05:00",
-                        //   icon: Icons.cloudy_snowing,
-                        //   temperature: "27°C",
-                        // ),
+                  //       // HourlyForecastItem(
+                  //       //   time: "01:00",
+                  //       //   icon: Icons.cloud,
+                  //       //   temperature: "30°C",
+                  //       // ),
+                  //       // HourlyForecastItem(
+                  //       //   time: "02:00",
+                  //       //   icon: Icons.sunny_snowing,
+                  //       //   temperature: "29°C",
+                  //       // ),
+                  //       // HourlyForecastItem(
+                  //       //   time: "03:00",
+                  //       //   icon: Icons.cloud,
+                  //       //   temperature: "29°C",
+                  //       // ),
+                  //       // HourlyForecastItem(
+                  //       //   time: "04:00",
+                  //       //   icon: Icons.air,
+                  //       //   temperature: "28°C",
+                  //       // ),
+                  //       // HourlyForecastItem(
+                  //       //   time: "05:00",
+                  //       //   icon: Icons.cloudy_snowing,
+                  //       //   temperature: "27°C",
+                  //       // ),
 
-                        for (int i = 0; i < 39; i++)
-                          HourlyForecastItem(
-                            time: data['list'][i + 1]['dt'].toString(),
-                            icon: data['list'][i + 1]['weather'][0]['main'] ==
-                                        'Clouds' ||
-                                    data['list'][i + 1]['weather'][0]['main'] ==
-                                        'Rain'
-                                ? Icons.cloud
-                                : Icons.sunny,
-                            temperature:
-                                (data['list'][i + 1]['main']['temp'] - 273.15)
-                                    .toStringAsFixed(2),
-                          ),
-                      ],
+                  // for (int i = 0; i < 39; i++)
+                  //   HourlyForecastItem(
+                  //     time: data['list'][i + 1]['dt'].toString(),
+                  //     icon: data['list'][i + 1]['weather'][0]['main'] ==
+                  //                 'Clouds' ||
+                  //             data['list'][i + 1]['weather'][0]['main'] ==
+                  //                 'Rain'
+                  //         ? Icons.cloud
+                  //         : Icons.sunny,
+                  //     temperature:
+                  //         (data['list'][i + 1]['main']['temp'] - 273.15)
+                  //             .toStringAsFixed(2),
+                  //   ),
+                  //     ],
+                  //   ),
+                  // ),
+
+                  SizedBox(
+                    height: 135,
+                    child: ListView.builder(
+                      itemCount: 5,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        final hourlyForecast = data['list'][index + 1];
+                        final hourlySky =
+                            data['list'][index + 1]['weather'][0]['main'];
+                        final hourlyTemp =
+                            hourlyForecast['main']['temp'] - 273.15;
+                        final time = DateTime.parse(hourlyForecast['dt_txt']);
+                        return HourlyForecastItem(
+                          time: DateFormat.j().format(time),
+                          icon: hourlySky == 'Clouds' || hourlySky == 'Rain'
+                              ? Icons.cloud
+                              : Icons.sunny,
+                          temperature: hourlyTemp.toStringAsFixed(2),
+                        );
+                      },
                     ),
                   ),
 
