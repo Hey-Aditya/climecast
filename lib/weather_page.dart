@@ -8,6 +8,9 @@ import 'package:weather_app/additional_info_item.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/secrets.dart';
 
+//bruh, completed this project on Day - 6(1st Sept Midnight) itself. I thought that i'll learn some more BuilderTrees stuff on the next day(Day - 7), but only learnt some important theory concepts, there were no changes to code on the Day - 7.
+//So technically, Completed this App on Day - 7!
+
 class WeatherPage extends StatefulWidget {
   const WeatherPage({super.key});
 
@@ -427,7 +430,7 @@ class _WeatherPageState extends State<WeatherPage> {
                       // ),
 
                       //AQI(made without using SizedBox)
-                      AdditionalInformationItem(
+                      const AdditionalInformationItem(
                         icon: Icons.waves,
                         label: "AQI",
                         value: "118",
